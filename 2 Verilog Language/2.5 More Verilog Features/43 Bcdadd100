@@ -1,0 +1,24 @@
+//BCD:四位二进制来表达一个十进制数
+module top_module( 
+    input [399:0] a, b,
+    input cin,
+    output cout,
+    output [399:0] sum );
+    
+    wire [100:0] cin_mid;
+    assign cin_mid[0] = cin;
+    
+    generate
+        genvar i;
+        for(i = 0; i < 100; i++) begin : bcd_fadd_loop
+            bcd_fadd bcd_fadd_instance(
+                .a(a[i*4+3:i*4]),
+                .b(b[i*4+3:i*4]),
+                .cin(cin_mid[i]),
+                .cout(cin_mid[i+1]),
+                .sum(sum[i*4+3:i*4])
+            );
+        end
+    endgenerate
+    assign cout = cin_mid[100];
+endmodule
