@@ -6,8 +6,8 @@ module top_module (
 
     // assign intermediate_result1 = compare? true: false;
     assign result1 = (a < b) ? a : b;
-    assign result2 = (c < result1) ? c : result1;
-    assign result3 = (d < result2) ? d : result2;
+    assign result2 = (c < d) ? c : d;
+    assign result3 = (result1 < result2) ? result1 : result2;
     assign min = result3;
 
 endmodule
