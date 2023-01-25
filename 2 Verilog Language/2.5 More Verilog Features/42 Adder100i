@@ -1,0 +1,28 @@
+//上一级的进位输出要给下一级
+module top_module( 
+    input [99:0] a, b,
+    input cin,
+    output [99:0] cout,
+    output [99:0] sum );
+    
+    generate
+        genvar i;
+        for(i = 0; i < 100; i++) begin : adder
+            if(i == 0) begin
+                fulladder fulladder_instance(a[i], b[i], cin, cout[i], sum[i]);
+            end
+            else begin
+                fulladder fulladder_instance(a[i], b[i], cout[i-1], cout[i], sum[i]);
+            end
+        end
+        
+    endgenerate
+endmodule
+    
+module fulladder(
+    input a, b, cin,
+    output cout, sum );
+    
+    assign {cout, sum} = a + b + cin;
+
+endmodule
