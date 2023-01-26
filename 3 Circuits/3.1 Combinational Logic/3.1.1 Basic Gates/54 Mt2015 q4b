@@ -1,0 +1,7 @@
+module top_module ( input x, input y, output z );
+    //法一：同或门
+    //assign z = !(x ^ y);
+    //法二：真值表
+    assign z = ((!x) & (!y)) | (x & y);
+
+endmodule
