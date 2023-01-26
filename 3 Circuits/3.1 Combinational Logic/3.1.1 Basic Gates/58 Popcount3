@@ -1,0 +1,10 @@
+module top_module( 
+    input [2:0] in,
+    output [1:0] out );
+    //法一：输入每位相加
+    //assign out = in[0] + in[1] + in[2];
+    //法二：真值表
+    assign out[0] = (~in[2] & ~in[1] & in[0]) | (~in[2] & in[1] & ~in[0]) | (in[2] & ~in[1] & ~in[0]) | (in[2] & in[1] & in[0]);
+    assign out[1] = (~in[2] & in[1] & in[0]) | (in[2] & ~in[1] & in[0]) | (in[2] & in[1] & ~in[0]);
+
+endmodule
