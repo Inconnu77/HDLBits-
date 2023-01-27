@@ -1,0 +1,17 @@
+module top_module( 
+    input a, b, sel,
+    output out ); 
+    
+    //法一：门电路描述（最贴合实际但不易读）
+    assign out = (sel & b) | ((!sel) & a);
+    //法二：数据流描述
+    //assign out = sel ? b : a;
+    //法三：行为级描述（最易读但离实际电路很远，复杂设计时越不可控）
+    always @(*) begin
+        if(sel)
+            out = b;
+        else
+            out = a;
+    end
+    
+endmodule
