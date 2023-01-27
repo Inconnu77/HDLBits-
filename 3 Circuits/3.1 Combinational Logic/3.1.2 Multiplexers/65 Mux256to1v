@@ -3,8 +3,8 @@ module top_module(
     input [7:0] sel,
     output [3:0] out );
     //法一：片选多个比特位
-    //assign out = in[sel*4+3-:4];
-    //assign out = in[sel*4+:4]; //从sel*4开始，选择比特序号大于它的4位
+    //assign out = in[sel*4+3-:4]; //从sel*4+3开始，选择比特序号小于等于它的4位
+    //assign out = in[sel*4+:4]; //从sel*4开始，选择比特序号大于等于它的4位
     //法二：拼接
     assign out = {in[sel*4+3], in[sel*4+2], in[sel*4+1], in[sel*4+0]};
 
