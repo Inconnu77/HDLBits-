@@ -1,0 +1,49 @@
+//法一：例化
+module top_module (
+    input [3:0] x,
+    input [3:0] y, 
+    output [4:0] sum);
+    wire w1, w2, w3;
+
+    full_adder in0(
+        .x(x[0]),
+        .y(y[0]),
+        .cin(0),
+        .cout(w1),
+        .sum(sum[0])
+    );
+    full_adder in1(
+        .x(x[1]),
+        .y(y[1]),
+        .cin(w1),
+        .cout(w2),
+        .sum(sum[1])
+    );
+    full_adder in2(
+        .x(x[2]),
+        .y(y[2]),
+        .cin(w2),
+        .cout(w3),
+        .sum(sum[2])
+    );
+    full_adder in3(
+        .x(x[3]),
+        .y(y[3]),
+        .cin(w3),
+        .cout(sum[4]),
+        .sum(sum[3])
+    );
+endmodule
+module full_adder(
+    input x, y, cin,
+    output cout, sum
+);
+    assign {cout, sum} = x + y + cin;
+endmodule
+//法二
+module top_module (
+    input [3:0] x,
+    input [3:0] y, 
+    output [4:0] sum);
+    assign sum = x + y;
+endmodule
