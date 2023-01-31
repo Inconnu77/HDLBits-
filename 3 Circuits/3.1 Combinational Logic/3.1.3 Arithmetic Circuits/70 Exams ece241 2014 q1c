@@ -1,0 +1,10 @@
+module top_module (
+    input [7:0] a,
+    input [7:0] b,
+    output [7:0] s,
+    output overflow
+);  
+    assign s = a + b;
+    //两个负数相加产生正数结果/两个正数相加得到负数结果都为溢出
+    assign overflow = (a[7] && b[7] && ~s[7]) || (~a[7] && ~b[7] && s[7]);
+endmodule
