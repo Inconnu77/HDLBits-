@@ -5,7 +5,7 @@ module top_module(
     input d,
     output out  ); 
     //化简一：f = b'c' + a'd' + acd + a'bc
-    //assign out = (~b && ~c) | (~a && ~d) | (a && c && d) | (~a && b && c);
+    //assign out = (~b & ~c) | (~a & ~d) | (a & c & d) | (~a & b & c);
     //化简二：f = b'c' + a'd' + bcd + acd
-    assign out = (~b && ~c) | (~a && ~d) | (b && c && d) | (a && c && d);
+    assign out = (~b & ~c) | (~a & ~d) | (b & c & d) | (a & c & d);
 endmodule
