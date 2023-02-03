@@ -1,0 +1,48 @@
+module top_module(
+    input clk,
+    input reset,
+    input ena,
+    output pm,
+    output [7:0] hh,
+    output [7:0] mm,
+    output [7:0] ss); 
+    
+    wire [7:0] hh_r;
+    wire [6:1] enable;
+    
+    assign enable[1] = ena && (ss[3:0] == 4'h9);
+    assign enable[2] = enable[1] && (ss[7:4] == 4'h5);
+    assign enable[3] = enable[2] && (mm[3:0] == 4'h9);
+    assign enable[4] = enable[3] && (mm[7:4] == 4'h5);
+    assign enable[5] = enable[4] && (hh_r[3:0] == 4'hb);
+    assign enable[6] = enable[5] && (hh_r[7:4] == 4'h1);
+    
+    bcdcnt #(.START(4'h0), .END(4'h9)) ss9(clk, reset, ena, ss[3:0]);
+    bcdcnt #(.START(4'h0), .END(4'h5)) ss5(clk, reset, enable[1], ss[7:4]);
+    
+    bcdcnt #(.START(4'h0), .END(4'h9)) mm9(clk, reset, enable[2], mm[3:0]);
+    bcdcnt #(.START(4'h0), .END(4'h5)) mm5(clk, reset, enable[3], mm[7:4]);
+    
+    bcdcnt #(.START(4'h0), .END(4'hb)) hhb(clk, reset, enable[4], hh_r[3:0]);
+    bcdcnt #(.START(4'h0), .END(4'h1)) hh1(clk, reset, enable[5], hh_r[7:4]);
+    
+    assign pm = (hh_r[7:4] == 4'h1);
+    assign hh = (hh_r[3:0] == 4'h0) ? 8'h12 : ((hh_r[3:0] > 4'h9) ? {4'h1, hh_r[3:0] - 4'ha} : {4'h0, hh_r[3:0]});
+endmodule
+module bcdcnt(
+    input clk,
+    input reset,
+    input ena,
+    output reg [3:0] q
+);
+    parameter START = 4'h0;
+    parameter END = 4'h9;
+    always @(posedge clk) begin
+        if(reset)
+            q <= START;
+        else if(ena)
+            q <= (q == END) ? START : q + 4'h1;
+        else
+            q <= q;
+    end
+endmodule
